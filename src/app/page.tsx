@@ -1,0 +1,24 @@
+"use client";
+
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+export default function Home() {
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (authStatus === "authenticated") {
+      router.replace("/dashboard");
+    } else if (authStatus === "unauthenticated") {
+      router.replace("/login");
+    }
+  }, [authStatus, router]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-gray-500">Loading...</div>
+    </div>
+  );
+}
